@@ -158,7 +158,10 @@ def main():
 
             # Perform inference
             results = model.predict(frame, conf=CONFIDENCE_THRESHOLD, verbose=False)
-
+            if(results):
+                print(f"Detected {len(results)} objects in the frame.")
+            else:
+                print("No objects detected in the frame.")
             # Assume only one result for simplicity, get the annotated frame
             if results:
                 annotated_frame = results[0].plot()
