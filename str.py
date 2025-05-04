@@ -48,13 +48,15 @@ def gen_frames():
             # For simplicity, we'll just skip if no frame is ready
             time.sleep(0.1) # Avoid busy-waiting
             continue
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        cv2.putText(frame_to_show, timestamp, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
 
         # Encode frame as JPEG
         ret, buffer = cv2.imencode('.jpg', frame_to_show)
         if not ret:
             continue
         frame_bytes = buffer.tobytes()
-        
+        # add current timestamp to image
         # Yield the frame in MJPEG format
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
